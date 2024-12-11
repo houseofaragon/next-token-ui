@@ -13,7 +13,7 @@ const BarChart = ({ data }) => {
     const { top_tokens, top_probabilities } = data;
 
     const width = 600;
-    const height = 500;
+    const height = 420;
     const margin = { top: 20, right: 30, bottom: 40, left: 80 };
 
     const svg = select(chartRef.current)
@@ -52,7 +52,7 @@ const BarChart = ({ data }) => {
       .attr("y", (d) => y(d.token))
       .attr("width", (d) => x(d.probability))
       .attr("height", y.bandwidth())
-      .attr("fill", "green");
+      .attr("fill", "blue");
 
     // Update phase: Update existing bars
     bars
@@ -83,10 +83,13 @@ const BarChart = ({ data }) => {
       .text((d) => d.probability.toFixed(2)); // Display probability with 2 decimal places
 
     // Update phase: Update text for existing bars
-    texts
-      .attr("x", (d) => x(d.probability) + 45) // Ensure text is at the right edge of the updated bar
-      .attr("y", (d) => y(d.token) + y.bandwidth() / 2)
-      .text((d) => d.probability.toFixed(2) + '%');
+// Update phase: Update text for existing bars
+texts
+  .attr("x", (d) => x(d.probability) + 5) // Ensure text is at the right edge of the updated bar
+  .attr("y", (d) => y(d.token) + y.bandwidth() / 2)
+  .attr("text-anchor", "start") // Align the text to start slightly past the bar
+  .text((d) => `${(d.probability * 100).toFixed(2)}%`); // Convert to percentage and show 2 decimal places
+
 
     // Exit phase: Remove old text elements if necessary
     texts.exit().remove();

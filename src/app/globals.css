@@ -19,16 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  padding: 20px 0 0 0;
+}
+
 .probability-text {
   font-size: 0.8rem; 
   color: white
 }
 
 .y-axis text{
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(148, 198, 239)
 }
+
 .y-axis path, .y-axis line {
   display: none;
 }
