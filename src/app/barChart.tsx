@@ -14,7 +14,7 @@ const BarChart = ({ data }) => {
 
     const width = 600;
     const height = 420;
-    const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+    const margin = { top: 20, right: 80, bottom: 40, left: 80 };
 
     const svg = select(chartRef.current)
       .attr("width", width)

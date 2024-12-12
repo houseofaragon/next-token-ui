@@ -10,8 +10,10 @@ const Home = () => {
   const [topProbabilities, setTopProbabilities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedTokenizer, setSelectedTokenizer] = useState('gpt2'); // Default tokenizer
+  const [tokens, setTokens] = useState([]);
+  const [modelConfig, setModelConfig] = useState({});
 
-  const tokenizers = ['gpt2', 'distilgpt2', 'EleutherAI/gpt-neo-1.3B', 't5-small', 'facebook/bart-small'];
+  const tokenizers = ['gpt2', 'distilgpt2', 'o200k_base', 'EleutherAI/gpt-neo-1.3B', 't5-small', 'facebook/bart-small'];
 
   const handleKeyDown = () => (e) => {
     if (e.key === 'Enter') {
@@ -36,8 +38,10 @@ const Home = () => {
         text: inputText,
         tokenizer_name: selectedTokenizer
       });
+      setTokens(response.data.tokens)
       setTopTokens(response.data.top_tokens);
       setTopProbabilities(response.data.top_probabilities);
+      setModelConfig(response.data.model_config);
     } catch (error) {
       console.error('Error fetching token probabilities:', error);
     }
@@ -65,8 +69,23 @@ const Home = () => {
         </select>
       </div>
       <div style={{ padding: '20px 0 0 0' }}>
+        <h1>Decoded input: word count: {inputText.length ? inputText.split(' ').length : 0}</h1>
+        <p>{inputText}</p>
+      </div>
+      <div style={{ padding: '20px 0 0 0' }}>
+        <h1>Encoded input:  length: {tokens.length}</h1>
+        <p>{JSON.stringify(tokens, null, 4)}</p>
+      </div>
+      <div style={{ padding: '20px 0 0 0' }}>
         <h1>Top 10 Next Token Probabilities:</h1>
         {topTokens.length > 0 && <BarChart data={{ top_tokens: topTokens, top_probabilities: topProbabilities }} />}
+      </div>
+      <div style={{ padding: '20px 0 0 0' }}>
+        <h1>{selectedTokenizer} Model:</h1>
+        <p>vocab size: {modelConfig.vocab_size}</p>
+        <p>n_positions: {modelConfig.n_positions}</p>
+        <p>n_embed: {modelConfig.n_embed}</p>
+        <p>activation_function: {modelConfig.activation_function}</p>
       </div>
     </div>
   );
